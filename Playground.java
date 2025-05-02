@@ -37,11 +37,13 @@ class MyFrame extends JFrame implements KeyListener {
   }
 }
 class MyPanel extends JPanel implements ActionListener, MouseListener {
+  PhysicsWorld world;
   MyPanel(int inW, int inH) {
     this.setPreferredSize(new Dimension(inW,inH));
     this.addMouseListener(this);
+    world = new PhysicsWorld();
     //Start the timer and program
-    Timer frameT = new Timer(50, this);
+    Timer frameT = new Timer(25, this);
     frameT.start();
   }
   
@@ -63,10 +65,13 @@ class MyPanel extends JPanel implements ActionListener, MouseListener {
     g2D.setStroke(new BasicStroke(5));
     g2D.setColor(Color.white);
     g2D.drawLine(0, this.getHeight() - 50, this.getWidth(), this.getHeight() - 50);
+    world.drawWorld(g2D);
   }
 
   @Override//Action performed by timer (frame)
   public void actionPerformed(ActionEvent e) {
+    world.advanceWorld();
+    repaint();
   }
   //Mouse
   @Override
